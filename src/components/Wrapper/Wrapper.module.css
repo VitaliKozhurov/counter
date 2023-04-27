@@ -1,0 +1,9 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    border: solid 3px #00e2ff;
+}
