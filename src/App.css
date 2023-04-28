@@ -2,4 +2,21 @@
     max-width: 1180px;
     margin: 200px auto 0;
     text-align: center;
+    display: flex;
+}
+
+.elem {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    border: solid 3px #00e2ff;
+}
+
+.btnWrapper {
+    border: 3px solid #09b3ca;
+    padding: 20px 0;
+    border-radius: 10px;
 }

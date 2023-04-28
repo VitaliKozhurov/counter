@@ -1,4 +1,7 @@
 .body {
     display: flex;
     justify-content: space-around;
+    border: 3px solid #09b3ca;
+    padding: 20px 0;
+    border-radius: 10px;
 }
