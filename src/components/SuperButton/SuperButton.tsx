@@ -3,7 +3,7 @@ import s from "./SuperButton.module.css";
 
 type SuperButtonPropsType = {
     title: string;
-    disable?: boolean;
+    disable: boolean;
     callback: () => void;
 };
 
