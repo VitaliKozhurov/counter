@@ -1,0 +1,13 @@
+.body {
+    padding: 30px 0;
+    background-color: #09b3ca;
+    border-radius: 10px;
+    font-size: 48px;
+    font-weight: 700;
+    color: #282c34;
+    margin-bottom: 20px;
+}
+
+.limit {
+    color: red;
+}

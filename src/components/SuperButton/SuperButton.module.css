@@ -1,8 +1,22 @@
 .btn {
     border: none;
     border-radius: 5px;
-    width: 100px;
+    width: 140px;
     padding: 10px;
     text-align: center;
-    background-color: #00e2ff;
+    background-color: #09b3ca;
+    font-size: 28px;
+    font-weight: 600;
+    color: #282c34;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn:active {
+    transform: translateX(3px) translateY(2px);
+}
+
+.btn:disabled {
+    transform: none;
+    opacity: 0.5;
 }

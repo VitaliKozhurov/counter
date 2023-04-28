@@ -1,13 +1,32 @@
-import React from "react";
+import React, { FC } from "react";
 import s from "./Wrapper.module.css";
-import CounterInfo from "../CounterInfo/CounterInfo";
-import CounterController from "../CounterController/CounterController";
+import { CounterInfo } from "../CounterInfo/CounterInfo";
+import { CounterController } from "../CounterController/CounterController";
 
-export default function Wrapper() {
+type WrapperPropsType = {
+    counter: number;
+    incDisable: boolean;
+    resDisable: boolean;
+    increaseCounter: () => void;
+    resetCounter: () => void;
+};
+
+export const Wrapper: FC<WrapperPropsType> = ({
+    counter,
+    incDisable,
+    resDisable,
+    increaseCounter,
+    resetCounter,
+}) => {
     return (
         <div className={s.body}>
-            <CounterInfo />
-            <CounterController />
+            <CounterInfo counter={counter} isLimit={incDisable} />
+            <CounterController
+                incDisable={incDisable}
+                resDisable={resDisable}
+                increaseCounter={increaseCounter}
+                resetCounter={resetCounter}
+            />
         </div>
     );
-}
+};

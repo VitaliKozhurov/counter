@@ -1,5 +1,12 @@
-import React from "react";
+import React, { FC } from "react";
+import s from "./CounterInfo.module.css";
 
-export default function CounterInfo() {
-    return <div>CounterInfo</div>;
-}
+type CounterInfoPropsType = {
+    counter: number;
+    isLimit: boolean;
+};
+
+export const CounterInfo: FC<CounterInfoPropsType> = ({ counter, isLimit }) => {
+    const style = isLimit ? s.body + " " + s.limit : s.body;
+    return <div className={style}>{counter}</div>;
+};
