@@ -1,16 +1,17 @@
-import React, { useState } from "react";
-import "./App.css";
-import { CounterInfo } from "./components/CounterInfo/CounterInfo";
-import { CounterController } from "./components/CounterController/CounterController";
-import { SettingsInfo } from "./components/SettingsInfo/SettingsInfo";
-import { SuperButton } from "./components/SuperButton/SuperButton";
+import React, {useState} from 'react';
+import './App.css';
+import {CounterInfo} from './components/CounterInfo/CounterInfo';
+import {CounterController} from './components/CounterController/CounterController';
+import {SettingsInfo} from './components/SettingsInfo/SettingsInfo';
+import {SuperButton} from './components/SuperButton/SuperButton';
+
 
 const App = () => {
     const [minCounterValue, setMinCounterValue] = useState<number>(0);
     const [maxCounterValue, setMaxCounterValue] = useState<number>(5);
     const [counter, setCounter] = useState<number>(minCounterValue);
-    const [message, setMessage] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [isSettingMode, setIsSettingMode] = useState<boolean>(false);
+    const [error, setError] = useState<boolean>(false);
 
     const increaseCounter = () => {
         if (counter < maxCounterValue) {
@@ -20,44 +21,59 @@ const App = () => {
     const resetCounter = () => {
         setCounter(minCounterValue);
     };
-    const changeMinCounterValue = (value: string) => {
-        minCounterValue < 0
-            ? setError("Minimal value cannot be less than zero")
-            : minCounterValue >= maxCounterValue
-            ? setError("Minimum value cannot be greater than the maximum")
-            : setError(null);
-    };
 
-    const changeMaxCounterValue = (value: string) => {
-        setMaxCounterValue(+value);
-    };
+
+    /*  const changeMinCounterValue = (value: string) => {
+          setMinCounterValue(+value);
+          if (!isSettingMode) {
+              setIsSettingMode(true)
+          }
+      };
+
+      const changeMaxCounterValue = (value: string) => {
+          setMaxCounterValue(+value);
+          if (!isSettingMode) {
+              setIsSettingMode(true)
+          }
+      };*/
+
+    /*   if (minCounterValue < 0) {
+           setError(true)
+       } else if (minCounterValue >= maxCounterValue) {
+           setError(true)
+       }*/
+
+    const setSettingMode = () => {
+        setIsSettingMode(true)
+    }
 
     const incDisable = counter === maxCounterValue;
     const resDisable = counter === minCounterValue;
-    const setDisable = !!error;
-    console.log(setDisable);
+
     return (
         <div className="App">
-            <div className={"elem"}>
+            <div className={'elem'}>
                 <SettingsInfo
-                    minValue={minCounterValue}
-                    maxValue={maxCounterValue}
-                    minInputTitle={"min value:"}
-                    maxInputTitle={"max value:"}
-                    changeMinCounterValue={changeMinCounterValue}
-                    changeMaxCounterValue={changeMaxCounterValue}
+                    minInputTitle={'min value:'}
+                    maxInputTitle={'max value:'}
+                    setSettingMode={setSettingMode}
+                    isSettingMode={isSettingMode}
+                    /*                    minValue={minCounterValue}
+                                        maxValue={maxCounterValue}*/
+                    /*changeMinCounterValue={changeMinCounterValue}
+                    changeMaxCounterValue={changeMaxCounterValue}*/
                 />
-                <div className={"btnWrapper"}>
+                <div className={'btnWrapper'}>
                     <SuperButton
-                        title={"Set"}
-                        disable={setDisable}
-                        callback={() => console.log(123)}
+                        title={'Set'}
+                        disable={error}
+                        callback={() => setIsSettingMode(false)}
                     />
                 </div>
             </div>
 
-            <div className={"elem"}>
-                <CounterInfo counter={counter} isLimit={incDisable} />
+            <div className={'elem'}>
+                <CounterInfo counter={counter} isLimit={incDisable} isSettingMode={isSettingMode}  error={error} />
                 <CounterController
                     incDisable={incDisable}
                     resDisable={resDisable}

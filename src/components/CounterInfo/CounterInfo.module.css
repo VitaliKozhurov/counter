@@ -11,3 +11,13 @@
 .limit {
     color: rgb(151, 9, 9);
 }
+
+.settins {
+    color: #09b3ca;
+}
+
+.error{
+    color:rgb(151, 9, 9);
+    background-color: rgba(255,0,0,15%);
+
+}
