@@ -1,10 +1,7 @@
-import React, {useState} from 'react';
-import './App.css';
-import {CounterInfo} from './components/CounterInfo/CounterInfo';
-import {CounterController} from './components/CounterController/CounterController';
-import {SettingsInfo} from './components/SettingsInfo/SettingsInfo';
-import {SuperButton} from './components/SuperButton/SuperButton';
-
+import React, { useState } from "react";
+import "./App.css";
+import { SettingsComponent } from "./components/SettingsComponent/SettingsComponent";
+import { DisplayComponent } from "./components/DisplayComponent/DisplayComponent";
 
 const App = () => {
     const [minCounterValue, setMinCounterValue] = useState<number>(0);
@@ -21,66 +18,51 @@ const App = () => {
     const resetCounter = () => {
         setCounter(minCounterValue);
     };
+    const activateSettingMode = () => {
+        setIsSettingMode(true);
+    };
+    const setSettingError = () => {
+        if (!error) {
+            setError(true);
+        }
+    };
+    const removeSettingError = () => {
+        setError(false);
+    };
+    const setSettingsParams = (minValue: number, maxValue: number) => {
+        setMinCounterValue(minValue);
+        setMaxCounterValue(maxValue);
+        setIsSettingMode(false);
+    };
 
-
-    /*  const changeMinCounterValue = (value: string) => {
-          setMinCounterValue(+value);
-          if (!isSettingMode) {
-              setIsSettingMode(true)
-          }
-      };
-
-      const changeMaxCounterValue = (value: string) => {
-          setMaxCounterValue(+value);
-          if (!isSettingMode) {
-              setIsSettingMode(true)
-          }
-      };*/
-
-    /*   if (minCounterValue < 0) {
-           setError(true)
-       } else if (minCounterValue >= maxCounterValue) {
-           setError(true)
-       }*/
-
-    const setSettingMode = () => {
-        setIsSettingMode(true)
-    }
-
-    const incDisable = counter === maxCounterValue;
-    const resDisable = counter === minCounterValue;
+    const isLimit = counter === maxCounterValue;
+    const incButtonIsDisabled = counter === maxCounterValue;
+    const resButtonIsDisabled = counter === minCounterValue;
 
     return (
         <div className="App">
-            <div className={'elem'}>
-                <SettingsInfo
-                    minInputTitle={'min value:'}
-                    maxInputTitle={'max value:'}
-                    setSettingMode={setSettingMode}
-                    isSettingMode={isSettingMode}
-                    /*                    minValue={minCounterValue}
-                                        maxValue={maxCounterValue}*/
-                    /*changeMinCounterValue={changeMinCounterValue}
-                    changeMaxCounterValue={changeMaxCounterValue}*/
-                />
-                <div className={'btnWrapper'}>
-                    <SuperButton
-                        title={'Set'}
-                        disable={error}
-                        callback={() => setIsSettingMode(false)}
-                    />
-                </div>
-            </div>
-
-            <div className={'elem'}>
-                <CounterInfo counter={counter} isLimit={incDisable} isSettingMode={isSettingMode}  error={error} />
-                <CounterController
-                    incDisable={incDisable}
-                    resDisable={resDisable}
-                    increaseCounter={increaseCounter}
-                    resetCounter={resetCounter}
-                />
-            </div>
+            <SettingsComponent
+                minInputTitle={"Min Value"}
+                maxInputTitle={"Max Value"}
+                minSettingsValue={minCounterValue}
+                maxSettingsValue={maxCounterValue}
+                isSettingMode={isSettingMode}
+                buttonTitle={"Set"}
+                activateSettingMode={activateSettingMode}
+                setSettingError={setSettingError}
+                removeSettingError={removeSettingError}
+                setSettingsParams={setSettingsParams}
+            />
+            <DisplayComponent
+                counter={counter}
+                isLimit={isLimit}
+                isSettingMode={isSettingMode}
+                isError={error}
+                incButtonIsDisabled={incButtonIsDisabled}
+                resButtonIsDisabled={resButtonIsDisabled}
+                increaseCounter={increaseCounter}
+                resetCounter={resetCounter}
+            />
         </div>
     );
 };
