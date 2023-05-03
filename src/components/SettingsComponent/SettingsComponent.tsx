@@ -33,48 +33,60 @@ export const SettingsComponent: FC<SettingsComponentPopsType> = ({
     const [maxInputError, setMaxInputError] = useState<boolean>(false);
 
     const changeMinCounterValue = (value: string) => {
-        // Проверка что значение двух инпутов равны
-        /* if (+value === maxCounterValue) {
-            setMinInputError(true);
+        // Проверка на то что значение двух инпутов равны
+        if (+value === maxCounterValue) {
+            !minInputError && setMinInputError(true); // Если ошибки не было, то сетаем
             setMaxInputError(true);
             setSettingError();
-        } */
+        }
+        // Убираем ошибку с инпута макс значения
+        if (+value !== maxCounterValue) {
+            setMaxInputError(false);
+        }
         // Сетаем значение только один раз (если ошибки не было, если ошибка была, то нет смысла сетать ее ещё раз)
-        if ((+value < 0 || +value >= maxCounterValue) && !minInputError) {
+        if ((+value < 0 || +value > maxCounterValue) && !minInputError) {
             setMinInputError(true);
             setSettingError();
         }
-
-        if (+value >= maxCounterValue && !minInputError) {
-            setMinInputError(true);
-            setMaxInputError(true);
-            setSettingError();
-        }
-
-        // Тоже самое если возвращаемся в валидное состояние
+        // Сетаем значение только один раз если возвращаемся в валидное состояние
         if (+value >= 0 && +value < maxCounterValue && minInputError) {
             setMinInputError(false);
             removeSettingError();
         }
-        // Устанавливаем режим настроек если они не были установлены
+        // Устанавливаем режим настроек в том случае если они не были установлены
         if (!isSettingMode) {
             activateSettingMode();
         }
+        // Сетаем новое значение
         setMinValue(+value);
     };
 
     const changeMaxCounterValue = (value: string) => {
+        // Проверка на то что значение двух инпутов равны
+        if (+value === minCounterValue) {
+            setMinInputError(true);
+            !maxInputError && setMaxInputError(true);
+            setSettingError();
+        }
+        // Убираем ошибку с инпута мин значения
+        if (+value !== minCounterValue) {
+            setMinInputError(false);
+        }
+        // Сетаем ошибку
         if (+value < minCounterValue && !maxInputError) {
             setMaxInputError(true);
             setSettingError();
         }
+        // Убираем состояние ошибки
         if (+value > minCounterValue && maxInputError) {
             setMaxInputError(false);
             removeSettingError();
         }
+        // Устанавливаем режим настроек в том случае если они не были установлены
         if (!isSettingMode) {
             activateSettingMode();
         }
+        // Сетаем значение
         setMaxValue(+value);
     };
 
@@ -82,13 +94,7 @@ export const SettingsComponent: FC<SettingsComponentPopsType> = ({
         setSettingsParams(minCounterValue, maxCounterValue);
     };
 
-    /* if (minInputError || maxInputError) {
-        setSettingError();
-    } else {
-        removeSettingError();
-    } */
-
-    const btnIsDisabled = minInputError || maxInputError;
+    const btnIsDisabled = !isSettingMode || minInputError || maxInputError;
 
     return (
         <div className={"elem"}>

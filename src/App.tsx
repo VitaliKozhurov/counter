@@ -32,12 +32,14 @@ const App = () => {
     const setSettingsParams = (minValue: number, maxValue: number) => {
         setMinCounterValue(minValue);
         setMaxCounterValue(maxValue);
+        setCounter(minValue);
         setIsSettingMode(false);
     };
 
+    // переменные для определения состояния кнопок
     const isLimit = counter === maxCounterValue;
-    const incButtonIsDisabled = counter === maxCounterValue;
-    const resButtonIsDisabled = counter === minCounterValue;
+    const incButtonIsDisabled = counter === maxCounterValue || isSettingMode;
+    const resButtonIsDisabled = counter === minCounterValue || isSettingMode;
 
     return (
         <div className="App">
