@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import "./App.css";
-import { SettingsComponent } from "./components/SettingsComponent/SettingsComponent";
-import { DisplayComponent } from "./components/DisplayComponent/DisplayComponent";
+import React, {useEffect, useState} from 'react';
+import './App.css';
+import {SettingsComponent} from './components/SettingsComponent/SettingsComponent';
+import {DisplayComponent} from './components/DisplayComponent/DisplayComponent';
 import {
     getFromLocalStorage,
     setToLocalStorage,
-} from "./LocalStoragelogic/LocalStorageLogic";
+} from './LocalStoragelogic/LocalStorageLogic';
 
 const App = () => {
     const [minCounterValue, setMinCounterValue] = useState<number>(0);
@@ -17,7 +17,8 @@ const App = () => {
     useEffect(() => {
         const values = getFromLocalStorage();
         if (values) {
-            const { min, max } = JSON.parse(values);
+            const {min, max} = JSON.parse(values);
+            setCounter(min);
             setMinCounterValue(min);
             setMaxCounterValue(max);
         }
@@ -58,12 +59,12 @@ const App = () => {
     return (
         <div className="App">
             <SettingsComponent
-                minInputTitle={"Min Value:"}
-                maxInputTitle={"Max Value:"}
+                minInputTitle={'Min Value:'}
+                maxInputTitle={'Max Value:'}
                 minSettingsValue={minCounterValue}
                 maxSettingsValue={maxCounterValue}
                 isSettingMode={isSettingMode}
-                buttonTitle={"Set"}
+                buttonTitle={'Set'}
                 activateSettingMode={activateSettingMode}
                 setSettingError={setSettingError}
                 removeSettingError={removeSettingError}
