@@ -32,10 +32,10 @@ export const SettingsComponent: FC<SettingsComponentPopsType> = ({
     const [minInputError, setMinInputError] = useState<boolean>(false);
     const [maxInputError, setMaxInputError] = useState<boolean>(false);
 
-    useEffect(()=>{
+    useEffect(() => {
         setMinValue(minSettingsValue);
         setMaxValue(maxSettingsValue);
-    },[minSettingsValue,maxSettingsValue])
+    }, [minSettingsValue, maxSettingsValue])
 
     const changeMinCounterValue = (value: string) => {
         // Сетаем значение только один раз (если ошибки не было, если ошибка была, то нет смысла сетать ее ещё раз)
@@ -68,8 +68,10 @@ export const SettingsComponent: FC<SettingsComponentPopsType> = ({
         // Убираем состояние ошибки
         if (+value > minCounterValue && +value > 0 && maxInputError) {
             setMaxInputError(false);
-            minCounterValue >= 0 && setMinInputError(false);
-            removeSettingError();
+            if (minCounterValue >= 0) {
+                setMinInputError(false);
+                removeSettingError()
+            }
         }
         // Устанавливаем режим настроек в том случае если они не были установлены
         if (!isSettingMode) {
