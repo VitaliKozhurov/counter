@@ -13,15 +13,16 @@ const App = () => {
     const [counter, setCounter] = useState<number>(minCounterValue);
     const [isSettingMode, setIsSettingMode] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
-    console.log(counter);
     useEffect(() => {
         const values = getFromLocalStorage();
         if (values) {
             const { min, max } = JSON.parse(values);
+            setCounter(min);
             setMinCounterValue(min);
             setMaxCounterValue(max);
         }
     }, []);
+    console.log(minCounterValue);
 
     const increaseCounter = () => {
         if (counter < maxCounterValue) {

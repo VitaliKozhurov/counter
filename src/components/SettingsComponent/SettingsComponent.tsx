@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { SettingsInfo } from "./SettingsInfo/SettingsInfo";
 import { SuperButton } from "../UI/SuperButton/SuperButton";
 
@@ -31,6 +31,11 @@ export const SettingsComponent: FC<SettingsComponentPopsType> = ({
     const [maxCounterValue, setMaxValue] = useState<number>(maxSettingsValue);
     const [minInputError, setMinInputError] = useState<boolean>(false);
     const [maxInputError, setMaxInputError] = useState<boolean>(false);
+
+    useEffect(() => {
+        setMinValue(minSettingsValue);
+        setMaxValue(maxSettingsValue);
+    }, [minSettingsValue, maxSettingsValue]);
 
     const changeMinCounterValue = (value: string) => {
         // Проверка на то что значение двух инпутов равны
