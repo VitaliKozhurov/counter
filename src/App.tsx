@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { SettingsComponent } from "./components/SettingsComponent/SettingsComponent";
 import { DisplayComponent } from "./components/DisplayComponent/DisplayComponent";
+import {
+    getFromLocalStorage,
+    setToLocalStorage,
+} from "./LocalStoragelogic/LocalStorageLogic";
 
 const App = () => {
     const [minCounterValue, setMinCounterValue] = useState<number>(0);
@@ -9,6 +13,15 @@ const App = () => {
     const [counter, setCounter] = useState<number>(minCounterValue);
     const [isSettingMode, setIsSettingMode] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
+    console.log(counter);
+    useEffect(() => {
+        const values = getFromLocalStorage();
+        if (values) {
+            const { min, max } = JSON.parse(values);
+            setMinCounterValue(min);
+            setMaxCounterValue(max);
+        }
+    }, []);
 
     const increaseCounter = () => {
         if (counter < maxCounterValue) {
@@ -34,9 +47,10 @@ const App = () => {
         setMaxCounterValue(maxValue);
         setCounter(minValue);
         setIsSettingMode(false);
+        setToLocalStorage(minValue, maxValue);
     };
 
-    // переменные для определения состояния кнопок
+    // переменные для определения состояния кнопок и лимитного значения
     const isLimit = counter === maxCounterValue;
     const incButtonIsDisabled = counter === maxCounterValue || isSettingMode;
     const resButtonIsDisabled = counter === minCounterValue || isSettingMode;
@@ -44,8 +58,8 @@ const App = () => {
     return (
         <div className="App">
             <SettingsComponent
-                minInputTitle={"Min Value"}
-                maxInputTitle={"Max Value"}
+                minInputTitle={"Min Value:"}
+                maxInputTitle={"Max Value:"}
                 minSettingsValue={minCounterValue}
                 maxSettingsValue={maxCounterValue}
                 isSettingMode={isSettingMode}
