@@ -23,7 +23,6 @@ export const SettingsInfo: FC<SettingsInfoType> = ({
     changeMinCounterValue,
     changeMaxCounterValue,
 }) => {
-    console.log(minValue);
     return (
         <div className={s.body}>
             <NumbersInput

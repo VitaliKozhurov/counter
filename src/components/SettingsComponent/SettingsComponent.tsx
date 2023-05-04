@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { SettingsInfo } from "./SettingsInfo/SettingsInfo";
 import { SuperButton } from "../UI/SuperButton/SuperButton";
+import {log} from 'util';
 
 type SettingsComponentPopsType = {
     minInputTitle: string;

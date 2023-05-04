@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { SettingsComponent } from "./components/SettingsComponent/SettingsComponent";
 import { DisplayComponent } from "./components/DisplayComponent/DisplayComponent";
-import {
-    getFromLocalStorage,
-    setToLocalStorage,
-} from "./LocalStoragelogic/LocalStorageLogic";
 
 const App = () => {
     const [minCounterValue, setMinCounterValue] = useState<number>(0);
@@ -13,6 +9,7 @@ const App = () => {
     const [counter, setCounter] = useState<number>(minCounterValue);
     const [isSettingMode, setIsSettingMode] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
+
     useEffect(() => {
         const values = getFromLocalStorage();
         if (values) {
@@ -22,7 +19,6 @@ const App = () => {
             setMaxCounterValue(max);
         }
     }, []);
-    console.log(minCounterValue);
 
     const increaseCounter = () => {
         if (counter < maxCounterValue) {
@@ -50,8 +46,19 @@ const App = () => {
         setIsSettingMode(false);
         setToLocalStorage(minValue, maxValue);
     };
+    // Функции взаимодействия с LocalStorage
+    const setToLocalStorage = (min: number, max: number) => {
+        const obj = {
+            min,
+            max,
+        };
+        localStorage.setItem("values", JSON.stringify(obj));
+    };
+    const getFromLocalStorage = () => {
+        return  localStorage.getItem("values");
+    };
 
-    // переменные для определения состояния кнопок и лимитного значения
+    // Переменные для определения состояния кнопок и лимитного значения
     const isLimit = counter === maxCounterValue;
     const incButtonIsDisabled = counter === maxCounterValue || isSettingMode;
     const resButtonIsDisabled = counter === minCounterValue || isSettingMode;
