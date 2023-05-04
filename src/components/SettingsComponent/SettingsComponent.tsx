@@ -38,24 +38,16 @@ export const SettingsComponent: FC<SettingsComponentPopsType> = ({
     }, [minSettingsValue, maxSettingsValue]);
 
     const changeMinCounterValue = (value: string) => {
-        // Проверка на то что значение двух инпутов равны
-        if (+value === maxCounterValue) {
-            !minInputError && setMinInputError(true); // Если ошибки не было, то сетаем
-            setMaxInputError(true);
-            setSettingError();
-        }
-        // Убираем ошибку с инпута макс значения
-        if (+value !== maxCounterValue) {
-            setMaxInputError(false);
-        }
         // Сетаем значение только один раз (если ошибки не было, если ошибка была, то нет смысла сетать ее ещё раз)
-        if ((+value < 0 || +value > maxCounterValue) && !minInputError) {
+        if ((+value < 0 || +value >= maxCounterValue) && !minInputError) {
             setMinInputError(true);
             setSettingError();
+            +value >= maxCounterValue && setMaxInputError(true);
         }
         // Сетаем значение только один раз если возвращаемся в валидное состояние
         if (+value >= 0 && +value < maxCounterValue && minInputError) {
             setMinInputError(false);
+            setMaxInputError(false);
             removeSettingError();
         }
         // Устанавливаем режим настроек в том случае если они не были установлены
@@ -67,25 +59,19 @@ export const SettingsComponent: FC<SettingsComponentPopsType> = ({
     };
 
     const changeMaxCounterValue = (value: string) => {
-        // Проверка на то что значение двух инпутов равны
-        if (+value === minCounterValue) {
-            setMinInputError(true);
-            !maxInputError && setMaxInputError(true);
-            setSettingError();
-        }
-        // Убираем ошибку с инпута мин значения
-        if (+value !== minCounterValue) {
-            setMinInputError(false);
-        }
         // Сетаем ошибку
-        if (+value < minCounterValue && !maxInputError) {
+        if ((+value <= minCounterValue || +value < 0) && !maxInputError) {
             setMaxInputError(true);
+            !minInputError && setMinInputError(true);
             setSettingError();
         }
         // Убираем состояние ошибки
-        if (+value > minCounterValue && maxInputError) {
+        if (+value > minCounterValue && +value > 0 && maxInputError) {
             setMaxInputError(false);
-            removeSettingError();
+            if (minCounterValue >= 0) {
+                setMinInputError(false);
+                removeSettingError();
+            }
         }
         // Устанавливаем режим настроек в том случае если они не были установлены
         if (!isSettingMode) {
