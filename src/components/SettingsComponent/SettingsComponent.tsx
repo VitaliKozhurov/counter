@@ -1,7 +1,6 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { SettingsInfo } from "./SettingsInfo/SettingsInfo";
 import { SuperButton } from "../UI/SuperButton/SuperButton";
-import {log} from 'util';
 
 type SettingsComponentPopsType = {
     minInputTitle: string;
@@ -32,11 +31,6 @@ export const SettingsComponent: FC<SettingsComponentPopsType> = ({
     const [maxCounterValue, setMaxValue] = useState<number>(maxSettingsValue);
     const [minInputError, setMinInputError] = useState<boolean>(false);
     const [maxInputError, setMaxInputError] = useState<boolean>(false);
-
-    useEffect(() => {
-        setMinValue(minSettingsValue);
-        setMaxValue(maxSettingsValue);
-    }, [minSettingsValue, maxSettingsValue]);
 
     const changeMinCounterValue = (value: string) => {
         // Сетаем значение только один раз (если ошибки не было, если ошибка была, то нет смысла сетать ее ещё раз)

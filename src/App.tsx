@@ -2,23 +2,35 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { SettingsComponent } from "./components/SettingsComponent/SettingsComponent";
 import { DisplayComponent } from "./components/DisplayComponent/DisplayComponent";
+import { getFromLocalStorage, setToLocalStorage } from "./utils/utils";
 
 const App = () => {
-    const [minCounterValue, setMinCounterValue] = useState<number>(0);
-    const [maxCounterValue, setMaxCounterValue] = useState<number>(5);
+    // Без useEffect избавляемся от лишней перерисовки
+    const values = getFromLocalStorage();
+    let min: number = 0;
+    let max: number = 5;
+    if (values) {
+        const { minSettingsValue, maxSettingsValue } = values;
+        min = minSettingsValue;
+        max = maxSettingsValue;
+    }
+
+    const [minCounterValue, setMinCounterValue] = useState<number>(min);
+    const [maxCounterValue, setMaxCounterValue] = useState<number>(max);
     const [counter, setCounter] = useState<number>(minCounterValue);
     const [isSettingMode, setIsSettingMode] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
 
-    useEffect(() => {
+    // Вариант с использованием useEffect, но тогда придется в компоненте с настройками добавлять useEffect или обращаться к LS
+    /* useEffect(() => {
         const values = getFromLocalStorage();
         if (values) {
-            const { min, max } = JSON.parse(values);
-            setCounter(min);
-            setMinCounterValue(min);
-            setMaxCounterValue(max);
+            const { minSettingsValue, maxSettingsValue } = values;
+            setCounter(minSettingsValue);
+            setMinCounterValue(minSettingsValue);
+            setMaxCounterValue(maxSettingsValue);
         }
-    }, []);
+    }, []); */
 
     const increaseCounter = () => {
         if (counter < maxCounterValue) {
@@ -45,17 +57,6 @@ const App = () => {
         setCounter(minValue);
         setIsSettingMode(false);
         setToLocalStorage(minValue, maxValue);
-    };
-    // Функции взаимодействия с LocalStorage
-    const setToLocalStorage = (min: number, max: number) => {
-        const obj = {
-            min,
-            max,
-        };
-        localStorage.setItem("values", JSON.stringify(obj));
-    };
-    const getFromLocalStorage = () => {
-        return  localStorage.getItem("values");
     };
 
     // Переменные для определения состояния кнопок и лимитного значения
