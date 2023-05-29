@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import { CounterInfo } from "../CounterInfo/CounterInfo";
 import { CounterController } from "../CounterController/CounterController";
+import { useSelector } from "react-redux";
+import { AppRootState } from "../../state/store";
 
 type DisplayPropsComponent = {
     counter: number;
@@ -23,6 +25,9 @@ export const DisplayComponent: FC<DisplayPropsComponent> = ({
     increaseCounter,
     resetCounter,
 }) => {
+    const counterState = useSelector<AppRootState>((state) => state.counter);
+    console.log(counterState);
+
     return (
         <div className={"elem"}>
             <CounterInfo

@@ -21,17 +21,6 @@ const App = () => {
     const [isSettingMode, setIsSettingMode] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
 
-    // Вариант с использованием useEffect, но тогда придется в компоненте с настройками добавлять useEffect или обращаться к LS
-    /* useEffect(() => {
-        const values = getFromLocalStorage();
-        if (values) {
-            const { minSettingsValue, maxSettingsValue } = values;
-            setCounter(minSettingsValue);
-            setMinCounterValue(minSettingsValue);
-            setMaxCounterValue(maxSettingsValue);
-        }
-    }, []); */
-
     const increaseCounter = () => {
         if (counter < maxCounterValue) {
             setCounter(counter + 1);
@@ -40,6 +29,7 @@ const App = () => {
     const resetCounter = () => {
         setCounter(minCounterValue);
     };
+
     const activateSettingMode = () => {
         setIsSettingMode(true);
     };
@@ -48,6 +38,7 @@ const App = () => {
             setError(true);
         }
     };
+
     const removeSettingError = () => {
         setError(false);
     };
@@ -69,10 +60,10 @@ const App = () => {
             <SettingsComponent
                 minInputTitle={"Min Value:"}
                 maxInputTitle={"Max Value:"}
+                buttonTitle={"Set"}
                 minSettingsValue={minCounterValue}
                 maxSettingsValue={maxCounterValue}
                 isSettingMode={isSettingMode}
-                buttonTitle={"Set"}
                 activateSettingMode={activateSettingMode}
                 setSettingError={setSettingError}
                 removeSettingError={removeSettingError}
