@@ -1,10 +1,10 @@
 import { combineReducers, createStore } from "redux";
 import { counterValueReducer } from "./counterValueReducer";
-import { settingsReducer } from "./settingsReducer";
+import { settingsModeReducer } from "./settingsModeReducer";
 
 const rootAppReducer = combineReducers({
     counter: counterValueReducer,
-    settings: settingsReducer,
+    settings: settingsModeReducer,
 });
 
 export type AppRootState = ReturnType<typeof rootAppReducer>;

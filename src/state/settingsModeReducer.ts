@@ -3,13 +3,13 @@ type SettingsStateType = {
     settingError: boolean;
 };
 
-const changeSettingModeAC = (settingMode: boolean) =>
+export const changeSettingModeAC = (settingMode: boolean) =>
     ({
         type: "CHANGE-SETTING-MODE",
         payload: { settingMode },
     } as const);
 
-const changeSettingErrorAC = (errorMode: boolean) =>
+export const changeSettingErrorAC = (errorMode: boolean) =>
     ({
         type: "CHANGE-SETTING-ERROR",
         payload: { errorMode },
@@ -24,10 +24,10 @@ const initialState: SettingsStateType = {
     settingError: false,
 };
 
-export const settingsReducer = (
+export const settingsModeReducer = (
     state: SettingsStateType = initialState,
     action: SettingsActionsType
-) => {
+): SettingsStateType => {
     switch (action.type) {
         case "CHANGE-SETTING-MODE":
             return { ...state, settingMode: action.payload.settingMode };

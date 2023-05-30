@@ -1,40 +1,42 @@
-import React, { FC } from "react";
-import { CounterInfo } from "../CounterInfo/CounterInfo";
-import { CounterController } from "../CounterController/CounterController";
+import React from "react";
+import { CounterInfo } from "./CounterInfo/CounterInfo";
+import { CounterController } from "./CounterController/CounterController";
 import { useSelector } from "react-redux";
 import { AppRootState } from "../../state/store";
+import { useDispatch } from "react-redux";
+import {
+    increaseCounterValueAC,
+    resetCounterValueAC,
+} from "../../state/counterValueReducer";
 
-type DisplayPropsComponent = {
-    counter: number;
-    isLimit: boolean;
-    isSettingMode: boolean;
-    isError: boolean;
-    incButtonIsDisabled: boolean;
-    resButtonIsDisabled: boolean;
-    increaseCounter: () => void;
-    resetCounter: () => void;
-};
+export const DisplayComponent = () => {
+    const dispatch = useDispatch();
+    const appState = useSelector<AppRootState>(
+        (state) => state
+    ) as AppRootState;
 
-export const DisplayComponent: FC<DisplayPropsComponent> = ({
-    counter,
-    isLimit,
-    isSettingMode,
-    isError,
-    incButtonIsDisabled,
-    resButtonIsDisabled,
-    increaseCounter,
-    resetCounter,
-}) => {
-    const counterState = useSelector<AppRootState>((state) => state.counter);
-    console.log(counterState);
+    const { counterValue, minCounterValue, maxCounterValue } = appState.counter;
+    const { settingMode, settingError } = appState.settings;
+
+    // Переменные для определения состояния кнопок и лимитного значения
+    const isLimit = counterValue === maxCounterValue;
+    const incButtonIsDisabled = counterValue === maxCounterValue || settingMode;
+    const resButtonIsDisabled = counterValue === minCounterValue || settingMode;
+
+    const increaseCounter = () => {
+        dispatch(increaseCounterValueAC());
+    };
+    const resetCounter = () => {
+        dispatch(resetCounterValueAC());
+    };
 
     return (
         <div className={"elem"}>
             <CounterInfo
-                counter={counter}
+                counter={counterValue}
                 isLimit={isLimit}
-                isSettingMode={isSettingMode}
-                isError={isError}
+                isSettingMode={settingMode}
+                isError={settingError}
             />
             <CounterController
                 incButtonIsDisabled={incButtonIsDisabled}

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { SuperButton } from "../UI/SuperButton/SuperButton";
+import { SuperButton } from "../../UI/SuperButton/SuperButton";
 import s from "./CounterControlle.module.css";
 
 type CounterControllePropsType = {
