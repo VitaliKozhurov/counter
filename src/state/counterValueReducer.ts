@@ -52,10 +52,6 @@ export const counterValueReducer = (
         case "SET-COUNTER-VALUE":
             return { ...state, counterValue: action.payload.value };
         case "INCREASE-COUNTER-VALUE":
-        case "RESET-COUNTER-VALUE":
-        case "SET-MIN-COUNTER-VALUE":
-        case "SET-MAX-COUNTER-VALUE":
-        case "INCREASE-COUNTER-VALUE":
             return { ...state, counterValue: state.counterValue + 1 };
         case "RESET-COUNTER-VALUE":
             return {

@@ -17,7 +17,7 @@ export const DisplayComponent = () => {
 
     const { counterValue, minCounterValue, maxCounterValue } = appState.counter;
     const { settingMode, settingError } = appState.settings;
-
+    console.log(counterValue);
     // Переменные для определения состояния кнопок и лимитного значения
     const isLimit = counterValue === maxCounterValue;
     const incButtonIsDisabled = counterValue === maxCounterValue || settingMode;
