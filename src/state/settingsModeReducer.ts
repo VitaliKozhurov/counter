@@ -1,4 +1,4 @@
-type SettingsStateType = {
+export type SettingsStateType = {
     settingMode: boolean;
     settingError: boolean;
 };

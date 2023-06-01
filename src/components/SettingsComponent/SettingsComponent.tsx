@@ -5,37 +5,33 @@ import { useSelector } from "react-redux";
 import { AppRootState } from "../../state/store";
 import { useDispatch } from "react-redux";
 import {
+    SettingsStateType,
     changeSettingErrorAC,
     changeSettingModeAC,
 } from "../../state/settingsModeReducer";
 import {
+    CounterValueStateType,
     setCounterValueAC,
     setMaxCounterValueAC,
     setMinCounterValueAC,
 } from "../../state/counterValueReducer";
 
-type SettingsComponentPopsType = {
-    minInputTitle: string;
-    maxInputTitle: string;
-    buttonTitle: string;
-};
-
-export const SettingsComponent: FC<SettingsComponentPopsType> = ({
-    minInputTitle,
-    maxInputTitle,
-    buttonTitle,
-}) => {
+export const SettingsComponent = () => {
     const dispatch = useDispatch();
-    const appState = useSelector<AppRootState>(
-        (state) => state
-    ) as AppRootState;
 
-    const { minCounterValue, maxCounterValue } = appState.counter;
-    const { settingMode } = appState.settings;
+    const { minCounterValue, maxCounterValue } = useSelector<
+        AppRootState,
+        CounterValueStateType
+    >((state) => state.counter);
+    const settingMode = useSelector<AppRootState, boolean>(
+        (state) => state.settings.settingMode
+    );
 
+    // Стейты для изменеия значений в инпутах
     const [minValue, setMinValue] = useState<number>(minCounterValue);
     const [maxValue, setMaxValue] = useState<number>(maxCounterValue);
 
+    // Стейты для обработки ошибок в инпутах
     const [minInputError, setMinInputError] = useState<boolean>(false);
     const [maxInputError, setMaxInputError] = useState<boolean>(false);
 
@@ -98,8 +94,8 @@ export const SettingsComponent: FC<SettingsComponentPopsType> = ({
     return (
         <div className={"elem"}>
             <SettingsInfo
-                minInputTitle={minInputTitle}
-                maxInputTitle={maxInputTitle}
+                minInputTitle={"Min Value:"}
+                maxInputTitle={"Max Value:"}
                 minValue={minValue}
                 maxValue={maxValue}
                 minInputError={minInputError}
@@ -109,7 +105,7 @@ export const SettingsComponent: FC<SettingsComponentPopsType> = ({
             />
             <div className={"btnWrapper"}>
                 <SuperButton
-                    title={buttonTitle}
+                    title={"Set"}
                     disable={btnIsDisabled}
                     callback={setSettingsParamsHandler}
                 />

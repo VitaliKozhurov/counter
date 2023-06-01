@@ -1,23 +1,27 @@
 import React from "react";
 import { CounterInfo } from "./CounterInfo/CounterInfo";
 import { CounterController } from "./CounterController/CounterController";
-import { useSelector } from "react-redux";
 import { AppRootState } from "../../state/store";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+    CounterValueStateType,
     increaseCounterValueAC,
     resetCounterValueAC,
 } from "../../state/counterValueReducer";
+import { SettingsStateType } from "../../state/settingsModeReducer";
 
 export const DisplayComponent = () => {
     const dispatch = useDispatch();
-    const appState = useSelector<AppRootState>(
-        (state) => state
-    ) as AppRootState;
 
-    const { counterValue, minCounterValue, maxCounterValue } = appState.counter;
-    const { settingMode, settingError } = appState.settings;
-    console.log(counterValue);
+    const { counterValue, minCounterValue, maxCounterValue } = useSelector<
+        AppRootState,
+        CounterValueStateType
+    >((state) => state.counter);
+    const { settingMode, settingError } = useSelector<
+        AppRootState,
+        SettingsStateType
+    >((state) => state.settings);
+
     // Переменные для определения состояния кнопок и лимитного значения
     const isLimit = counterValue === maxCounterValue;
     const incButtonIsDisabled = counterValue === maxCounterValue || settingMode;

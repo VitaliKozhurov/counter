@@ -17,11 +17,7 @@ const App = () => {
 
     return (
         <div className="App">
-            <SettingsComponent
-                minInputTitle={"Min Value:"}
-                maxInputTitle={"Max Value:"}
-                buttonTitle={"Set"}
-            />
+            <SettingsComponent />
             <DisplayComponent />
         </div>
     );
