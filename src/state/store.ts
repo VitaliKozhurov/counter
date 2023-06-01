@@ -1,5 +1,8 @@
 import { combineReducers, createStore } from "redux";
-import { counterValueReducer } from "./counterValueReducer";
+import {
+    CounterValueStateType,
+    counterValueReducer,
+} from "./counterValueReducer";
 import { settingsModeReducer } from "./settingsModeReducer";
 
 const rootAppReducer = combineReducers({
@@ -9,4 +12,13 @@ const rootAppReducer = combineReducers({
 
 export type AppRootState = ReturnType<typeof rootAppReducer>;
 
-export const store = createStore(rootAppReducer);
+const initialState = {
+    counter: {
+        counterValue: 2,
+        minCounterValue: 2,
+        maxCounterValue: 5,
+    },
+    settings: { settingMode: false, settingError: false },
+};
+
+export const store = createStore(rootAppReducer, initialState);
