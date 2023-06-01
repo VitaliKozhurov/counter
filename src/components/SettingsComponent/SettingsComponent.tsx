@@ -1,31 +1,27 @@
-import React, { FC, useState } from "react";
-import { SettingsInfo } from "./SettingsInfo/SettingsInfo";
-import { SuperButton } from "../UI/SuperButton/SuperButton";
-import { useSelector } from "react-redux";
-import { AppRootState } from "../../state/store";
-import { useDispatch } from "react-redux";
+import React, {useState} from 'react';
+import {SettingsInfo} from './SettingsInfo/SettingsInfo';
+import {SuperButton} from '../UI/SuperButton/SuperButton';
+import {useSelector} from 'react-redux';
+import {AppRootState} from '../../state/store';
+import {useDispatch} from 'react-redux';
 import {
-    SettingsStateType,
     changeSettingErrorAC,
     changeSettingModeAC,
-} from "../../state/settingsModeReducer";
+} from '../../state/settingsModeReducer';
 import {
-    CounterValueStateType,
     setCounterValueAC,
     setMaxCounterValueAC,
     setMinCounterValueAC,
-} from "../../state/counterValueReducer";
+} from '../../state/counterValueReducer';
+import {setToLocalStorage} from '../../utils/utils';
 
 export const SettingsComponent = () => {
     const dispatch = useDispatch();
 
-    const { minCounterValue, maxCounterValue } = useSelector<
-        AppRootState,
-        CounterValueStateType
-    >((state) => state.counter);
-    const settingMode = useSelector<AppRootState, boolean>(
-        (state) => state.settings.settingMode
-    );
+    const minCounterValue = useSelector<AppRootState, number>((state) => state.counter.minCounterValue);
+    const maxCounterValue = useSelector<AppRootState, number>((state) => state.counter.maxCounterValue);
+
+    const settingMode = useSelector<AppRootState, boolean>((state) => state.settings.settingMode);
 
     // Стейты для изменеия значений в инпутах
     const [minValue, setMinValue] = useState<number>(minCounterValue);
@@ -86,16 +82,24 @@ export const SettingsComponent = () => {
         dispatch(setMinCounterValueAC(minValue));
         dispatch(setMaxCounterValueAC(maxValue));
         dispatch(changeSettingModeAC(false));
-        /* setToLocalStorage(minValue, maxValue); */
+
+        setToLocalStorage({
+            counter: {
+                counterValue: minValue,
+                minCounterValue: minValue,
+                maxCounterValue: maxValue,
+            },
+            settings: {settingMode: false, settingError: false},
+        });
     };
 
     const btnIsDisabled = !settingMode || minInputError || maxInputError;
 
     return (
-        <div className={"elem"}>
+        <div className={'elem'}>
             <SettingsInfo
-                minInputTitle={"Min Value:"}
-                maxInputTitle={"Max Value:"}
+                minInputTitle={'Min Value:'}
+                maxInputTitle={'Max Value:'}
                 minValue={minValue}
                 maxValue={maxValue}
                 minInputError={minInputError}
@@ -103,9 +107,9 @@ export const SettingsComponent = () => {
                 changeMinCounterValue={changeMinCounterValue}
                 changeMaxCounterValue={changeMaxCounterValue}
             />
-            <div className={"btnWrapper"}>
+            <div className={'btnWrapper'}>
                 <SuperButton
-                    title={"Set"}
+                    title={'Set'}
                     disable={btnIsDisabled}
                     callback={setSettingsParamsHandler}
                 />

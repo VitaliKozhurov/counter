@@ -4,6 +4,7 @@ import {
     counterValueReducer,
 } from "./counterValueReducer";
 import { settingsModeReducer } from "./settingsModeReducer";
+import {getFromLocalStorage} from '../utils/utils';
 
 const rootAppReducer = combineReducers({
     counter: counterValueReducer,
@@ -12,13 +13,7 @@ const rootAppReducer = combineReducers({
 
 export type AppRootState = ReturnType<typeof rootAppReducer>;
 
-const initialState = {
-    counter: {
-        counterValue: 2,
-        minCounterValue: 2,
-        maxCounterValue: 5,
-    },
-    settings: { settingMode: false, settingError: false },
-};
+const initialState = getFromLocalStorage();
 
 export const store = createStore(rootAppReducer, initialState);
+

@@ -1,18 +1,13 @@
 // Функция загрузки значения в LocalStorage
-export const setToLocalStorage = (
-    minSettingsValue: number,
-    maxSettingsValue: number
-) => {
-    const obj = {
-        minSettingsValue,
-        maxSettingsValue,
-    };
-    localStorage.setItem("values", JSON.stringify(obj));
+import {AppRootState} from '../state/store';
+
+export const setToLocalStorage = (state:AppRootState) => {
+    localStorage.setItem("state", JSON.stringify(state));
 };
 
 // Функция выгрузки значения из LocalStorage
 export const getFromLocalStorage = () => {
-    const values = localStorage.getItem("values");
+    const values = localStorage.getItem("state");
     if (values) {
         return JSON.parse(values);
     }

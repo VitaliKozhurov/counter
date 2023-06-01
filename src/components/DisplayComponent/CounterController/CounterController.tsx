@@ -1,6 +1,6 @@
-import React, { FC } from "react";
-import { SuperButton } from "../../UI/SuperButton/SuperButton";
-import s from "./CounterControlle.module.css";
+import React, {FC} from 'react';
+import {SuperButton} from '../../UI/SuperButton/SuperButton';
+import s from './CounterControlle.module.css';
 
 type CounterControllePropsType = {
     incButtonIsDisabled: boolean;
@@ -10,20 +10,20 @@ type CounterControllePropsType = {
 };
 
 export const CounterController: FC<CounterControllePropsType> = ({
-    incButtonIsDisabled,
-    resButtonIsDisabled,
-    increaseCounter,
-    resetCounter,
-}) => {
+                                                                     incButtonIsDisabled,
+                                                                     resButtonIsDisabled,
+                                                                     increaseCounter,
+                                                                     resetCounter,
+                                                                 }) => {
     return (
         <div className={s.body}>
             <SuperButton
-                title={"Increase"}
+                title={'Increase'}
                 disable={incButtonIsDisabled}
                 callback={increaseCounter}
             />
             <SuperButton
-                title={"Reset"}
+                title={'Reset'}
                 disable={resButtonIsDisabled}
                 callback={resetCounter}
             />
