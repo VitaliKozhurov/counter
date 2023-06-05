@@ -1,19 +1,17 @@
-import React, { FC } from "react";
-import s from "./SuperButton.module.css";
+import React, {ButtonHTMLAttributes, DetailedHTMLProps, FC} from 'react';
+import s from './SuperButton.module.css';
 
-type SuperButtonPropsType = {
-    title: string;
-    disable: boolean;
-    callback: () => void;
-};
+type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement>
+
+type SuperButtonPropsType = DefaultButtonPropsType & { title: string };
 
 export const SuperButton: FC<SuperButtonPropsType> = ({
-    title,
-    disable,
-    callback,
-}) => {
+                                                          title,
+                                                          ...restProps
+                                                      }) => {
     return (
-        <button className={s.btn} disabled={disable} onClick={callback}>
+        <button className={s.btn} {...restProps}>
             {title}
         </button>
     );

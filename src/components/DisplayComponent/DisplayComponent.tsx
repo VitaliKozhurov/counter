@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {CounterInfo} from './CounterInfo/CounterInfo';
 import {CounterController} from './CounterController/CounterController';
 import {AppRootState} from '../../state/store';
@@ -9,22 +9,27 @@ import {
     resetCounterValueAC,
 } from '../../state/counterValueReducer';
 import {SettingsStateType} from '../../state/settingsModeReducer';
+import s from './DisplayComponent.module.css';
 
 export const DisplayComponent = () => {
-    const dispatch = useDispatch();
+    const [isLimit, setIsLimit] = useState<boolean>(false);
+    const [incDisable, setIncDisable] = useState<boolean>(false);
+    const [resDisable, setResDisable] = useState<boolean>(true);
 
+    const dispatch = useDispatch();
     const {
         counterValue,
         minCounterValue,
         maxCounterValue
     } = useSelector<AppRootState, CounterValueStateType>((state) => state.counter);
-
     const {settingMode, settingError} = useSelector<AppRootState, SettingsStateType>((state) => state.settings);
 
-    // Переменные для определения состояния кнопок и лимитного значения
-    const isLimit = counterValue === maxCounterValue;
-    const incButtonIsDisabled = counterValue === maxCounterValue || settingMode;
-    const resButtonIsDisabled = counterValue === minCounterValue || settingMode;
+    useEffect(() => {
+        setIsLimit(counterValue === maxCounterValue);
+        setIncDisable(counterValue === maxCounterValue || settingMode);
+        setResDisable(counterValue === minCounterValue || settingMode);
+    }, [counterValue, minCounterValue, maxCounterValue, settingMode])
+
 
     const increaseCounter = () => {
         dispatch(increaseCounterValueAC());
@@ -34,7 +39,7 @@ export const DisplayComponent = () => {
     };
 
     return (
-        <div className={'elem'}>
+        <div className={s.elem}>
             <CounterInfo
                 counter={counterValue}
                 isLimit={isLimit}
@@ -42,8 +47,8 @@ export const DisplayComponent = () => {
                 isError={settingError}
             />
             <CounterController
-                incButtonIsDisabled={incButtonIsDisabled}
-                resButtonIsDisabled={resButtonIsDisabled}
+                incButtonIsDisabled={incDisable}
+                resButtonIsDisabled={resDisable}
                 increaseCounter={increaseCounter}
                 resetCounter={resetCounter}
             />

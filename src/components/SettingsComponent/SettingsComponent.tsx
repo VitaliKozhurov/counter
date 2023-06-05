@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SettingsInfo} from './SettingsInfo/SettingsInfo';
 import {SuperButton} from '../UI/SuperButton/SuperButton';
 import {useSelector} from 'react-redux';
@@ -13,14 +13,15 @@ import {
     setMaxCounterValueAC,
     setMinCounterValueAC,
 } from '../../state/counterValueReducer';
+import s from './SettingsComponents.module.css';
 import {setToLocalStorage} from '../../utils/utils';
 
 export const SettingsComponent = () => {
+    const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
     const dispatch = useDispatch();
 
     const minCounterValue = useSelector<AppRootState, number>((state) => state.counter.minCounterValue);
     const maxCounterValue = useSelector<AppRootState, number>((state) => state.counter.maxCounterValue);
-
     const settingMode = useSelector<AppRootState, boolean>((state) => state.settings.settingMode);
 
     // Стейты для изменеия значений в инпутах
@@ -30,6 +31,10 @@ export const SettingsComponent = () => {
     // Стейты для обработки ошибок в инпутах
     const [minInputError, setMinInputError] = useState<boolean>(false);
     const [maxInputError, setMaxInputError] = useState<boolean>(false);
+
+    useEffect(()=>{
+        setButtonDisabled(!settingMode || minInputError || maxInputError);
+    },[settingMode,minInputError,maxInputError])
 
     const changeMinCounterValue = (value: string) => {
         const newValue = Number(value);
@@ -52,7 +57,6 @@ export const SettingsComponent = () => {
         // Сетаем новое значение
         setMinValue(newValue);
     };
-
     const changeMaxCounterValue = (value: string) => {
         const newValue = Number(value);
         // Сетаем ошибку
@@ -93,10 +97,8 @@ export const SettingsComponent = () => {
         });
     };
 
-    const btnIsDisabled = !settingMode || minInputError || maxInputError;
-
     return (
-        <div className={'elem'}>
+        <div className={s.elem}>
             <SettingsInfo
                 minInputTitle={'Min Value:'}
                 maxInputTitle={'Max Value:'}
@@ -107,11 +109,11 @@ export const SettingsComponent = () => {
                 changeMinCounterValue={changeMinCounterValue}
                 changeMaxCounterValue={changeMaxCounterValue}
             />
-            <div className={'btnWrapper'}>
+            <div className={s.btnWrapper}>
                 <SuperButton
                     title={'Set'}
-                    disable={btnIsDisabled}
-                    callback={setSettingsParamsHandler}
+                    disabled={buttonDisabled}
+                    onClick={setSettingsParamsHandler}
                 />
             </div>
         </div>
